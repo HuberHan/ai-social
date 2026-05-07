@@ -1,0 +1,114 @@
+<h2>用户流程与功能模块</h2>
+<p class="subtitle">4 条核心流程 + 免费/VIP 权益对比</p>
+
+<!-- 流程1：注册引导 -->
+<div class="section">
+  <h3>① 注册引导流程（一次性）</h3>
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;">
+    <div style="background:#1677ff;color:white;padding:8px 14px;border-radius:20px;">打开小程序</div>
+    <div style="color:#aaa;">→</div>
+    <div style="background:#f0f4ff;border:1.5px solid #4facfe;padding:8px 14px;border-radius:20px;">微信一键授权<br><span style="font-size:10px;color:#888;">获取 openid / 昵称 / 头像</span></div>
+    <div style="color:#aaa;">→</div>
+    <div style="background:#f0f4ff;border:1.5px solid #4facfe;padding:8px 14px;border-radius:20px;">填写基础信息<br><span style="font-size:10px;color:#888;">性别/生日/身高/学历/城市/简介</span></div>
+    <div style="color:#aaa;">→</div>
+    <div style="background:#f0f4ff;border:1.5px solid #4facfe;padding:8px 14px;border-radius:20px;">上传照片<br><span style="font-size:10px;color:#888;">至少 1 张</span></div>
+    <div style="color:#aaa;">→</div>
+    <div style="background:#f0f4ff;border:1.5px solid #4facfe;padding:8px 14px;border-radius:20px;">设置交友偏好<br><span style="font-size:10px;color:#888;">目标城市/年龄/身高/学历</span></div>
+    <div style="color:#aaa;">→</div>
+    <div style="background:#f0f4ff;border:1.5px solid #4facfe;padding:8px 14px;border-radius:20px;">订阅消息授权<br><span style="font-size:10px;color:#888;">允许每日推送通知</span></div>
+    <div style="color:#aaa;">→</div>
+    <div style="background:#07c160;color:white;padding:8px 14px;border-radius:20px;">进入主页</div>
+  </div>
+</div>
+
+<!-- 流程2：每日推荐 -->
+<div class="section">
+  <h3>② 每日推荐流程（每天循环）</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px;">
+    <div style="background:#fff7e6;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;color:#d46b08;margin-bottom:10px;">⏰ 后台（每日 10:00 自动执行）</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:white;border-radius:6px;padding:8px;">1. 定时云函数触发</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">2. 遍历所有活跃用户</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">3. 按偏好过滤异性候选池<br><span style="color:#888;font-size:11px;">城市 ∩ 年龄 ∩ 身高 ∩ 学历 ∩ 去除已滑过</span></div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">4. 取前 N 人（免费3人/VIP 10人）</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">5. 写入 daily_recommendations</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">6. 发送订阅消息通知用户</div>
+      </div>
+    </div>
+    <div style="background:#f0fff4;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;color:#2d8a4e;margin-bottom:10px;">📱 用户端</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:white;border-radius:6px;padding:8px;">收到通知 → 点击进入小程序</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">主页展示今日推荐卡片栈</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">右滑 = 喜欢 ❤️<br>左滑 = 跳过 ✗</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:white;border-radius:6px;padding:8px;">卡片刷完 → 显示"明天见"页面</div>
+        <div style="color:#aaa;text-align:center;">↓</div>
+        <div style="background:#fff3e0;border-radius:6px;padding:8px;border:1px dashed #ffa940;">VIP：可查看 "谁喜欢了我" 列表</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 流程3：匹配建群 -->
+<div class="section">
+  <h3>③ 互选匹配 → 建群流程</h3>
+  <div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;font-size:12px;">
+    <div style="background:#f0f4ff;border:1.5px solid #4facfe;padding:8px 12px;border-radius:8px;text-align:center;">用户 A<br>右滑用户 B</div>
+    <div style="color:#aaa;align-self:center;">→</div>
+    <div style="background:#fff7e6;border:1.5px solid #ffa940;padding:8px 12px;border-radius:8px;text-align:center;">云函数<br>检查 B 是否喜欢过 A</div>
+    <div style="color:#aaa;align-self:center;">→</div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="background:#f6ffed;border:1.5px solid #73d13d;padding:8px 12px;border-radius:8px;">
+        ✅ 互选：从 group_pool 取一个 available 群<br>
+        → 创建 matches 记录<br>
+        → 通过公众号客服向双方发送群二维码图片<br>
+        → 小程序内弹出"配对成功"动画
+      </div>
+      <div style="background:#fff1f0;border:1.5px solid #ff7875;padding:8px 12px;border-radius:8px;">
+        ❌ 未互选：仅记录 swipe_actions，等待对方滑到 A
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:10px;font-size:11px;color:#888;background:#f9f9f9;border-radius:8px;padding:10px;">
+    💡 群池维护：运营每周刷新 group_pool 中即将过期（7天）的群二维码，保持 20+ 个 available 群备用
+  </div>
+</div>
+
+<!-- 流程4：会员 -->
+<div class="section">
+  <h3>④ 免费 vs VIP 权益对比</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px;">
+    <div style="background:#f9f9f9;border-radius:10px;padding:16px;text-align:center;">
+      <div style="font-size:22px;margin-bottom:6px;">🆓</div>
+      <div style="font-weight:bold;font-size:15px;margin-bottom:12px;">免费版</div>
+      <div style="display:flex;flex-direction:column;gap:8px;text-align:left;">
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span>每日 3 个推荐</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span>滑动喜欢 / 跳过</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span>互选后获得群二维码</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#ff4d4d;">✗</span><span style="color:#aaa;">查看谁喜欢了我</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#ff4d4d;">✗</span><span style="color:#aaa;">优先出现在他人推荐</span></div>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#667eea11,#764ba211);border:2px solid #764ba2;border-radius:10px;padding:16px;text-align:center;">
+      <div style="font-size:22px;margin-bottom:6px;">👑</div>
+      <div style="font-weight:bold;font-size:15px;margin-bottom:4px;color:#722ed1;">VIP 会员</div>
+      <div style="font-size:11px;color:#888;margin-bottom:12px;">¥39/月 · ¥99/季 · ¥199/年</div>
+      <div style="display:flex;flex-direction:column;gap:8px;text-align:left;">
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span>每日 <strong>10 个</strong>推荐</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span>滑动喜欢 / 跳过</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span>互选后获得群二维码</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span><strong>查看谁喜欢了我</strong></span></div>
+        <div style="display:flex;gap:8px;"><span style="color:#07c160;">✓</span><span><strong>优先出现在他人推荐</strong></span></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{"type":"server-started","port":56277,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:56277","screen_dir":"/Users/didi/dev/ai/ai-social/.superpowers/brainstorm/70919-1778143684/content","state_dir":"/Users/didi/dev/ai/ai-social/.superpowers/brainstorm/70919-1778143684/state"}
+{"type":"screen-added","file":"/Users/didi/dev/ai/ai-social/.superpowers/brainstorm/70919-1778143684/content/matching-interaction.html"}
+{"source":"user-event","type":"click","text":"👩\n        \n          ✗\n          ♥\n        \n      \n    \n    \n      A. 滑动卡片（Tinder 风）\n      每次展示一个人，左滑跳过、右滑喜欢。互相喜欢即匹配成功。节奏快，决策直觉化。","choice":"swipe","id":null,"timestamp":1778144472907}
+{"source":"user-event","type":"click","text":"👩\n        \n          ✗\n          ♥\n        \n      \n    \n    \n      A. 滑动卡片（Tinder 风）\n      每次展示一个人，左滑跳过、右滑喜欢。互相喜欢即匹配成功。节奏快，决策直觉化。","choice":"swipe","id":null,"timestamp":1778144492559}
+{"source":"user-event","type":"click","text":"👩\n        \n          ✗\n          ♥\n        \n      \n    \n    \n      A. 滑动卡片（Tinder 风）\n      每次展示一个人，左滑跳过、右滑喜欢。互相喜欢即匹配成功。节奏快，决策直觉化。","choice":"swipe","id":null,"timestamp":1778144492751}
+{"type":"screen-added","file":"/Users/didi/dev/ai/ai-social/.superpowers/brainstorm/70919-1778143684/content/waiting.html"}
+{"type":"screen-added","file":"/Users/didi/dev/ai/ai-social/.superpowers/brainstorm/70919-1778143684/content/architecture.html"}
+{"type":"screen-added","file":"/Users/didi/dev/ai/ai-social/.superpowers/brainstorm/70919-1778143684/content/data-models.html"}
+{"type":"server-stopped","reason":"idle timeout"}

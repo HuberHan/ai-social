@@ -1,0 +1,4 @@
+node_modules/
+miniprogram/node_modules/
+.DS_Store
+cloudfunctions/*/node_modules/

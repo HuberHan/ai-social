@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/home/home",
+    "pages/matches/matches",
+    "pages/profile/profile",
+    "pages/onboarding/basic-info"
+  ],
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#e8506a",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "首页" },
+      { "pagePath": "pages/matches/matches", "text": "匹配" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "遇见",
+    "navigationBarTextStyle": "black"
+  },
+  "cloud": true,
+  "sitemapLocation": "sitemap.json"
+}

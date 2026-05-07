@@ -1,0 +1,119 @@
+<h2>数据模型设计</h2>
+<p class="subtitle">云数据库 7 个集合（Collection），文档型存储</p>
+
+<div class="section">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:12px;">
+
+    <!-- users -->
+    <div style="background:#f0f4ff;border:2px solid #4facfe;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;font-size:14px;color:#1677ff;margin-bottom:10px;">👤 users <span style="font-size:11px;font-weight:normal;color:#888;">用户基础信息</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">_id</span><span style="color:#888;">auto</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">openid</span><span style="color:#07c160;">unique</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">nickname / avatar_url</span><span style="color:#888;">from WeChat</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">gender</span><span style="color:#888;">'male' | 'female'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">birthday / age</span><span style="color:#888;">Date / Number</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">height</span><span style="color:#888;">cm</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">education</span><span style="color:#888;">大专/本科/硕士/博士</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">current_city</span><span style="color:#888;">String</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">bio / photos</span><span style="color:#888;">String / Array</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">membership_type</span><span style="color:#888;">'free' | 'vip'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">membership_expire_at</span><span style="color:#888;">Date</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">is_profile_complete</span><span style="color:#888;">Boolean</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">last_active_at</span><span style="color:#888;">Date</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">status</span><span style="color:#888;">'active'|'banned'</span></div>
+      </div>
+    </div>
+
+    <!-- preferences -->
+    <div style="background:#f0fff4;border:2px solid #43e97b;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;font-size:14px;color:#2d8a4e;margin-bottom:10px;">🎯 preferences <span style="font-size:11px;font-weight:normal;color:#888;">交友偏好</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">user_id</span><span style="color:#888;">ref: users</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">target_cities</span><span style="color:#888;">['北京','上海',...]</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">age_range</span><span style="color:#888;">{ min:22, max:30 }</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">height_range</span><span style="color:#888;">{ min:155, max:175 }</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">education_min</span><span style="color:#888;">本科 / 不限</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">updated_at</span><span style="color:#888;">Date</span></div>
+      </div>
+
+      <!-- daily_recommendations -->
+      <div style="font-weight:bold;font-size:14px;color:#2d8a4e;margin:14px 0 10px;">📋 daily_recommendations <span style="font-size:11px;font-weight:normal;color:#888;">每日推荐</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">user_id</span><span style="color:#888;">ref: users</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">date</span><span style="color:#888;">'2026-05-07'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">recommended_user_ids</span><span style="color:#888;">Array</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">notified</span><span style="color:#888;">Boolean</span></div>
+      </div>
+    </div>
+
+    <!-- swipe_actions -->
+    <div style="background:#fff7e6;border:2px solid #ffa940;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;font-size:14px;color:#d46b08;margin-bottom:10px;">👆 swipe_actions <span style="font-size:11px;font-weight:normal;color:#888;">滑动记录</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">from_user_id</span><span style="color:#888;">ref: users</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">to_user_id</span><span style="color:#888;">ref: users</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">action</span><span style="color:#888;">'like' | 'pass'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">created_at</span><span style="color:#888;">Date</span></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#888;background:#fff3e0;border-radius:6px;padding:8px;">
+        ⚡ like 写入后立即检查 to_user 是否已对 from_user 操作过 like，是则触发 match
+      </div>
+    </div>
+
+    <!-- matches -->
+    <div style="background:#fdf0ff;border:2px solid #b37feb;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;font-size:14px;color:#722ed1;margin-bottom:10px;">💑 matches <span style="font-size:11px;font-weight:normal;color:#888;">匹配成功记录</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">user1_id / user2_id</span><span style="color:#888;">ref: users</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">matched_at</span><span style="color:#888;">Date</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">group_pool_id</span><span style="color:#888;">ref: group_pool</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">qr_sent</span><span style="color:#888;">Boolean</span></div>
+      </div>
+    </div>
+
+    <!-- group_pool -->
+    <div style="background:#fff0f6;border:2px solid #f759ab;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;font-size:14px;color:#c41d7f;margin-bottom:10px;">👥 group_pool <span style="font-size:11px;font-weight:normal;color:#888;">微信群池（运营预建）</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">group_name</span><span style="color:#888;">String</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">qr_code_file_id</span><span style="color:#888;">云存储 ID</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">qr_expire_at</span><span style="color:#888;">Date（7天有效）</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">status</span><span style="color:#888;">'available'|'assigned'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">assigned_match_id</span><span style="color:#888;">ref: matches</span></div>
+      </div>
+    </div>
+
+    <!-- orders -->
+    <div style="background:#f6ffed;border:2px solid #73d13d;border-radius:10px;padding:14px;">
+      <div style="font-weight:bold;font-size:14px;color:#389e0d;margin-bottom:10px;">💰 orders <span style="font-size:11px;font-weight:normal;color:#888;">会员订单</span></div>
+      <div style="display:grid;gap:4px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">user_id</span><span style="color:#888;">ref: users</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">plan_type</span><span style="color:#888;">'monthly'|'annual'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">amount</span><span style="color:#888;">分（¥×100）</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">payment_status</span><span style="color:#888;">'pending'|'paid'</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">wx_transaction_id</span><span style="color:#888;">String</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#555;">created_at / paid_at</span><span style="color:#888;">Date</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <h3>关键关系说明</h3>
+  <div style="font-size:12px;display:grid;gap:8px;">
+    <div style="background:#f9f9f9;border-radius:8px;padding:10px;display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:16px;">🔁</span>
+      <div><strong>匹配检测：</strong>用户 A like 用户 B 时，查询 swipe_actions 是否存在 {from:B, to:A, action:'like'}，存在则写入 matches，触发群分配流程</div>
+    </div>
+    <div style="background:#f9f9f9;border-radius:8px;padding:10px;display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:16px;">🚫</span>
+      <div><strong>去重逻辑：</strong>每日匹配时排除 swipe_actions 中已出现的 to_user_id，确保不重复推荐已滑过的人</div>
+    </div>
+    <div style="background:#f9f9f9;border-radius:8px;padding:10px;display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:16px;">⏰</span>
+      <div><strong>群二维码刷新：</strong>group_pool 中 qr_expire_at 小于当前时间的记录需运营定期更新（微信群邀请码7天有效）</div>
+    </div>
+  </div>
+</div>
