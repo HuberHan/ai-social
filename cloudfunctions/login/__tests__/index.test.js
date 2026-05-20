@@ -25,6 +25,10 @@ const { main } = require('../index');
 describe('login 云函数', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockServerDate.mockReturnValue(new Date('2026-01-01T00:00:00Z'));
+    mockAdd.mockResolvedValue({ _id: 'new_user_id' });
+    mockUpdate.mockResolvedValue({});
+    mockDoc.mockReturnValue({ update: mockUpdate });
     mockCollection.mockReturnValue({ where: mockWhere, add: mockAdd, doc: mockDoc });
   });
 
@@ -66,7 +70,11 @@ describe('login 云函数', () => {
     expect(result.isNew).toBe(false);
     expect(result.user._id).toBe('existing_user_id');
     expect(result.user.is_profile_complete).toBe(true);
+    expect(mockDoc).toHaveBeenCalledWith('existing_user_id');
     expect(mockUpdate).toHaveBeenCalledTimes(1);
+    expect(mockUpdate).toHaveBeenCalledWith({
+      data: { last_active_at: expect.anything() },
+    });
     expect(mockAdd).not.toHaveBeenCalled();
   });
 
@@ -82,5 +90,15 @@ describe('login 云函数', () => {
 
     expect(result.error).toBe('ACCOUNT_BANNED');
     expect(mockUpdate).not.toHaveBeenCalled();
+    expect(mockAdd).not.toHaveBeenCalled();
+  });
+
+  test('数据库异常：返回 error: INTERNAL_ERROR', async () => {
+    mockGet.mockRejectedValue(new Error('DB timeout'));
+
+    const result = await main({}, {});
+
+    expect(result.error).toBe('INTERNAL_ERROR');
+    expect(result.message).toBe('DB timeout');
   });
 });
