@@ -13,7 +13,7 @@ App({
       env: this.globalData.cloudEnvId,
       traceUser: true,
     });
-    this._checkLogin();
+    this._checkLogin(); // fire-and-forget: onLaunch 不支持 async，登录结果通过 globalData 传递
   },
 
   async _checkLogin() {
