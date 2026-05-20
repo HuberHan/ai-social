@@ -10,9 +10,7 @@
       class="login-btn {{loading ? 'login-btn--loading' : ''}}"
       bindtap="handleLogin"
       disabled="{{loading}}"
-    >
-      <text>{{ loading ? '登录中...' : '微信一键登录' }}</text>
-    </button>
+    >{{ loading ? '登录中...' : '微信一键登录' }}</button>
     <text class="hint">登录即表示同意《用户协议》和《隐私政策》</text>
   </view>
 </view>

@@ -23,6 +23,12 @@ Page({
         return;
       }
 
+      // Catch-all for any other error codes
+      if (error) {
+        wx.showToast({ title: '登录失败，请重试', icon: 'none' });
+        return;
+      }
+
       app.globalData.user = user;
 
       if (user.is_profile_complete) {
