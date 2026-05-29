@@ -10,6 +10,7 @@ exports.main = async (event, context) => {
   try {
     const { data: allUsers } = await db.collection('users')
       .where({ status: 'active', is_profile_complete: true })
+      .limit(1000)
       .get();
 
     let generated = 0;
