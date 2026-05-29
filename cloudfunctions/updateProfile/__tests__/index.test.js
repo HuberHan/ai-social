@@ -60,7 +60,7 @@ describe('updateProfile 云函数', () => {
     expect(result.success).toBe(true);
     expect(mockUsersDoc).toHaveBeenCalledWith('user_123');
     expect(mockUsersUpdate).toHaveBeenCalledWith({
-      data: { gender: 'female', height: 165, education: '本科' },
+      data: expect.objectContaining({ gender: 'female', height: 165, education: '本科' }),
     });
   });
 
@@ -116,6 +116,23 @@ describe('updateProfile 云函数', () => {
     mockUsersGet.mockResolvedValue({ data: [] });
     const result = await main({ type: 'profile', data: {} }, {});
     expect(result.error).toBe('USER_NOT_FOUND');
+  });
+
+  test('type: profile — 不允许覆盖特权字段', async () => {
+    mockUsersGet.mockResolvedValue({ data: [TEST_USER] });
+
+    await main({
+      type: 'profile',
+      data: { gender: 'female', is_profile_complete: true, membership_type: 'premium' },
+    }, {});
+
+    // Only whitelisted fields should be passed to update
+    expect(mockUsersUpdate).toHaveBeenCalledWith({
+      data: expect.not.objectContaining({ is_profile_complete: true, membership_type: 'premium' }),
+    });
+    expect(mockUsersUpdate).toHaveBeenCalledWith({
+      data: expect.objectContaining({ gender: 'female' }),
+    });
   });
 
   test('数据库异常：返回 INTERNAL_ERROR', async () => {

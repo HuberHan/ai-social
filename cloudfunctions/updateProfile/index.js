@@ -17,7 +17,15 @@ exports.main = async (event, context) => {
     const user = users[0];
 
     if (type === 'profile') {
-      await usersCol.doc(user._id).update({ data });
+      const PROFILE_WHITELIST = [
+        'gender', 'birthday', 'age', 'height', 'education',
+        'occupation', 'current_city', 'bio', 'photos',
+      ];
+      const safeData = {};
+      for (const key of PROFILE_WHITELIST) {
+        if (key in data) safeData[key] = data[key];
+      }
+      await usersCol.doc(user._id).update({ data: { ...safeData, updated_at: db.serverDate() } });
       return { success: true };
     }
 
