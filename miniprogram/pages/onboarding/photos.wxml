@@ -1,1 +1,33 @@
-<view></view>
+<view class="container">
+  <view class="header">
+    <text class="title">上传照片</text>
+    <text class="progress">2 / 4</text>
+  </view>
+  <text class="subtitle">至少上传1张，最多6张</text>
+
+  <view class="photo-grid">
+    <view
+      class="photo-item"
+      wx:for="{{photos}}"
+      wx:key="fileID"
+    >
+      <image class="photo-img" src="{{item.tempFilePath}}" mode="aspectFill" />
+      <view class="delete-btn" bindtap="onDeletePhoto" data-index="{{index}}">✕</view>
+    </view>
+
+    <view
+      class="photo-add"
+      bindtap="onChoosePhoto"
+      wx:if="{{photos.length < 6}}"
+    >
+      <text class="add-icon">+</text>
+      <text class="add-text">添加照片</text>
+    </view>
+  </view>
+
+  <button
+    class="submit-btn"
+    bindtap="onSubmit"
+    disabled="{{loading || uploading}}"
+  >{{loading ? '保存中...' : '下一步'}}</button>
+</view>

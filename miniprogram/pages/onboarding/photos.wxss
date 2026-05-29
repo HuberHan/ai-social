@@ -1,0 +1,113 @@
+page {
+  background: #f7f8fa;
+  height: 100%;
+}
+
+.container {
+  padding: 40rpx 32rpx;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.progress {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #999;
+  display: block;
+  margin-bottom: 40rpx;
+}
+
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 60rpx;
+}
+
+.photo-item {
+  width: 208rpx;
+  height: 208rpx;
+  border-radius: 12rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-add {
+  width: 208rpx;
+  height: 208rpx;
+  border-radius: 12rpx;
+  border: 2rpx dashed #d0d0d0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.add-icon {
+  font-size: 56rpx;
+  color: #ccc;
+  line-height: 1;
+  margin-bottom: 8rpx;
+}
+
+.add-text {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  background: #e8506a;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn[disabled] {
+  opacity: 0.6;
+}
