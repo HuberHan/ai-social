@@ -29,5 +29,5 @@
     disabled="{{loading}}"
   >{{loading ? '处理中...' : '开启通知并进入'}}</button>
 
-  <view class="skip-link" bindtap="onSkip">暂时跳过</view>
+  <view class="skip-link {{loading ? 'skip-link--disabled' : ''}}" bindtap="onSkip">暂时跳过</view>
 </view>

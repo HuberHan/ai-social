@@ -43,7 +43,7 @@ Page({
         return;
       }
 
-      app.globalData.user.is_profile_complete = true;
+      if (app.globalData.user) app.globalData.user.is_profile_complete = true;
       wx.switchTab({ url: '/pages/home/home' });
     } catch (err) {
       console.error('[subscribe] 完成注册失败', err);

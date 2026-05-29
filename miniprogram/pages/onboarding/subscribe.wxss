@@ -106,3 +106,7 @@ page {
   text-decoration: underline;
   padding: 16rpx;
 }
+
+.skip-link--disabled {
+  opacity: 0.4;
+}
