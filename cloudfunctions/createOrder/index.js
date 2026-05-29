@@ -24,6 +24,20 @@ exports.main = async (event, context) => {
 
     const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
 
+    const payResult = await cloud.cloudPay.unifiedOrder({
+      body: planInfo.label,
+      outTradeNo: orderId,
+      spbillCreateIp: '127.0.0.1',
+      totalFee: planInfo.price,
+      envId: cloud.DYNAMIC_CURRENT_ENV,
+      functionName: 'paymentCallback',
+    });
+
+    if (payResult.returnCode !== 'SUCCESS' || payResult.resultCode !== 'SUCCESS') {
+      console.error('[createOrder] cloudPay failed:', payResult);
+      return { error: 'PAY_API_FAILED' };
+    }
+
     await db.collection('orders').add({
       data: {
         order_id: orderId,
@@ -36,19 +50,6 @@ exports.main = async (event, context) => {
         created_at: db.serverDate(),
       },
     });
-
-    const payResult = await cloud.cloudPay.unifiedOrder({
-      body: planInfo.label,
-      outTradeNo: orderId,
-      spbillCreateIp: '127.0.0.1',
-      totalFee: planInfo.price,
-      envId: cloud.DYNAMIC_CURRENT_ENV,
-      functionName: 'paymentCallback',
-    });
-
-    if (payResult.returnCode !== 'SUCCESS' || payResult.resultCode !== 'SUCCESS') {
-      return { error: 'PAY_API_FAILED', detail: payResult };
-    }
 
     return {
       success: true,
