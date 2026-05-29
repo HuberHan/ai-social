@@ -64,6 +64,6 @@ exports.main = async (event, context) => {
     };
   } catch (err) {
     console.error('[createOrder] error:', err);
-    return { error: 'INTERNAL_ERROR', message: err.message };
+    return { error: 'INTERNAL_ERROR' };
   }
 };
