@@ -16,7 +16,8 @@ exports.main = async (event, context) => {
       return { error: 'USER_NOT_FOUND' };
     }
 
-    const from_user_id = users[0]._id;
+    const fromUser = users[0];
+    const from_user_id = fromUser._id;
 
     if (!to_user_id || typeof to_user_id !== 'string') {
       return { error: 'INVALID_TARGET' };
@@ -24,6 +25,10 @@ exports.main = async (event, context) => {
     if (to_user_id === from_user_id) {
       return { error: 'CANNOT_SWIPE_SELF' };
     }
+
+    // Fetch target user for notification payload
+    const { data: toUsers } = await db.collection('users').where({ _id: to_user_id }).get();
+    const toUser = toUsers[0] || {};
 
     const swipeCol = db.collection('swipe_actions');
 
@@ -58,6 +63,20 @@ exports.main = async (event, context) => {
     const now = new Date();
     const recycle_at = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
+    // Helper: fire-and-forget notification
+    const fireNotify = () => {
+      cloud.callFunction({
+        name: 'notifyMatch',
+        data: {
+          user1_openid: fromUser.openid,
+          user2_openid: toUser.openid || '',
+          user1_nickname: fromUser.nickname || '',
+          user2_nickname: toUser.nickname || '',
+          matched_at: now.getTime(),
+        },
+      }).catch(err => console.warn('[swipe] notifyMatch failed:', err.message));
+    };
+
     if (groups.length === 0) {
       const { _id: matchId } = await db.collection('matches').add({
         data: {
@@ -70,6 +89,7 @@ exports.main = async (event, context) => {
           status: 'active',
         },
       });
+      fireNotify();
       return { matched: true, matchId, qrFileId: null, noGroup: true };
     }
 
@@ -90,6 +110,7 @@ exports.main = async (event, context) => {
       data: { status: 'assigned', assigned_match_id: matchId, assigned_at: db.serverDate() },
     });
 
+    fireNotify();
     return { matched: true, matchId, qrFileId: group.qr_code_file_id };
   } catch (err) {
     console.error('[swipe] error:', err);

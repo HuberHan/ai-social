@@ -13,6 +13,7 @@ const mockGroupDoc = jest.fn(() => ({ update: mockGroupUpdate }));
 const mockMatchesAdd = jest.fn();
 
 const mockServerDate = jest.fn(() => new Date('2026-01-01T00:00:00Z'));
+const mockCallFunction = jest.fn(() => Promise.resolve({}));
 
 const mockCollection = jest.fn((name) => {
   if (name === 'users') return { where: mockUsersWhere };
@@ -26,6 +27,7 @@ jest.mock('wx-server-sdk', () => ({
   init: jest.fn(),
   DYNAMIC_CURRENT_ENV: 'test',
   getWXContext: jest.fn(() => ({ OPENID: 'test_openid_a' })),
+  callFunction: mockCallFunction,
   database: jest.fn(() => ({
     collection: mockCollection,
     serverDate: mockServerDate,
@@ -52,6 +54,7 @@ describe('swipe 云函数', () => {
     mockMatchesAdd.mockResolvedValue({ _id: 'match_new' });
     mockGroupUpdate.mockResolvedValue({});
     mockGroupDoc.mockReturnValue({ update: mockGroupUpdate });
+    mockCallFunction.mockResolvedValue({});
   });
 
   test('用户不存在：返回 USER_NOT_FOUND', async () => {
@@ -138,5 +141,45 @@ describe('swipe 云函数', () => {
     mockUsersGet.mockRejectedValue(new Error('DB error'));
     const result = await main({ to_user_id: 'user_b', action: 'like' }, {});
     expect(result.error).toBe('INTERNAL_ERROR');
+  });
+
+  test('互选（有群）后触发 notifyMatch fire-and-forget（不 await，不阻塞）', async () => {
+    mockSwipeGet
+      .mockResolvedValueOnce({ data: [] })
+      .mockResolvedValueOnce({ data: [{ from_user_id: 'user_b', action: 'like' }] });
+    mockGroupGet.mockResolvedValue({ data: [AVAILABLE_GROUP] });
+    mockMatchesAdd.mockResolvedValue({ _id: 'match_001' });
+
+    mockCallFunction.mockImplementation(() =>
+      new Promise(resolve => setTimeout(() => resolve({}), 5000))
+    );
+
+    const result = await main({ to_user_id: 'user_b', action: 'like' }, {});
+
+    expect(result.matched).toBe(true);
+    expect(mockCallFunction).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'notifyMatch',
+        data: expect.objectContaining({
+          user1_openid: expect.any(String),
+          user2_openid: expect.any(String),
+        }),
+      })
+    );
+  });
+
+  test('notifyMatch 调用失败时：swipe 结果不受影响', async () => {
+    mockSwipeGet
+      .mockResolvedValueOnce({ data: [] })
+      .mockResolvedValueOnce({ data: [{ from_user_id: 'user_b', action: 'like' }] });
+    mockGroupGet.mockResolvedValue({ data: [] });
+    mockMatchesAdd.mockResolvedValue({ _id: 'match_002' });
+
+    mockCallFunction.mockRejectedValue(new Error('network error'));
+
+    const result = await main({ to_user_id: 'user_b', action: 'like' }, {});
+
+    expect(result.matched).toBe(true);
+    expect(result.error).toBeUndefined();
   });
 });

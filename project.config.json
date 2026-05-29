@@ -1,0 +1,10 @@
+{
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudfunctionConfig": {
+    "notifyMatch": {
+      "permissions": {
+        "openapi": ["subscribeMessage.send"]
+      }
+    }
+  }
+}
