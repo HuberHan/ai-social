@@ -25,8 +25,10 @@ Page({
 
   onBirthdayChange(e) {
     const birthday = e.detail.value; // 'YYYY-MM-DD'
-    const birthYear = parseInt(birthday.split('-')[0]);
-    const age = new Date().getFullYear() - birthYear;
+    const today = new Date();
+    const birthDate = new Date(birthday);
+    const age = today.getFullYear() - birthDate.getFullYear() -
+      (today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0);
     this.setData({ birthday, age });
   },
 
@@ -53,6 +55,8 @@ Page({
   },
 
   async onSubmit() {
+    if (this.data.loading) return;
+
     const { gender, birthday, age, height, education, occupation, current_city, bio } = this.data;
     const h = parseInt(height);
 
@@ -74,7 +78,6 @@ Page({
     if (!current_city) {
       wx.showToast({ title: '请选择所在城市', icon: 'none' }); return;
     }
-    if (this.data.loading) return;
 
     this.setData({ loading: true });
     try {
