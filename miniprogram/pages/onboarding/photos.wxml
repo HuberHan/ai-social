@@ -1,6 +1,7 @@
 <view class="container">
   <view class="header">
     <text class="title">上传照片</text>
+    <!-- Step 2 of 4 in the onboarding wizard — intentionally static -->
     <text class="progress">2 / 4</text>
   </view>
   <text class="subtitle">至少上传1张，最多6张</text>
@@ -12,7 +13,7 @@
       wx:key="fileID"
     >
       <image class="photo-img" src="{{item.tempFilePath}}" mode="aspectFill" />
-      <view class="delete-btn" bindtap="onDeletePhoto" data-index="{{index}}">✕</view>
+      <view class="delete-btn {{uploading ? 'delete-btn-disabled' : ''}}" bindtap="onDeletePhoto" data-index="{{index}}">✕</view>
     </view>
 
     <view

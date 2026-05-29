@@ -108,6 +108,11 @@ page {
   justify-content: center;
 }
 
+.delete-btn-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 .submit-btn[disabled] {
   opacity: 0.6;
 }

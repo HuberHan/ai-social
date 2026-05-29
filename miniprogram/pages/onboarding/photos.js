@@ -23,21 +23,30 @@ Page({
         sourceType: ['album', 'camera'],
       });
 
-      this.setData({ uploading: true });
+      if (res.tempFilePaths.length === 0) return;
+
+      // Show previews immediately before upload
+      const placeholders = res.tempFilePaths.map(tempFilePath => ({ fileID: null, tempFilePath }));
+      const startIndex = this.data.photos.length;
+      this.setData({
+        uploading: true,
+        photos: [...this.data.photos, ...placeholders],
+      });
       wx.showLoading({ title: '上传中...' });
 
-      const uploadResults = await Promise.all(
-        res.tempFilePaths.map(tempFilePath => this._uploadOne(tempFilePath))
+      // Upload each and patch fileID in place
+      const results = await Promise.all(
+        res.tempFilePaths.map((tempFilePath, i) =>
+          this._uploadOne(tempFilePath, startIndex + i)
+        )
       );
 
-      const succeeded = uploadResults.filter(Boolean);
-      if (succeeded.length < res.tempFilePaths.length) {
+      const failedCount = results.filter(r => !r).length;
+      if (failedCount > 0) {
         wx.showToast({ title: '部分照片上传失败', icon: 'none' });
+        // Remove failed placeholders (fileID still null)
+        this.setData({ photos: this.data.photos.filter(p => p.fileID !== null) });
       }
-
-      this.setData({
-        photos: [...this.data.photos, ...succeeded],
-      });
     } catch (err) {
       if (err && err.errMsg && err.errMsg.includes('cancel')) return;
       console.error('[photos] 选择照片失败', err);
@@ -48,13 +57,19 @@ Page({
     }
   },
 
-  async _uploadOne(tempFilePath) {
+  async _uploadOne(tempFilePath, index) {
+    if (!app.globalData.user?._id) {
+      console.error('[photos] user not logged in');
+      return null;
+    }
     const userId = app.globalData.user._id;
     const ext = tempFilePath.split('.').pop() || 'jpg';
     const cloudPath = `user-photos/${userId}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
 
     try {
       const { fileID } = await wx.cloud.uploadFile({ cloudPath, filePath: tempFilePath });
+      // Patch fileID into the already-displayed placeholder
+      this.setData({ [`photos[${index}].fileID`]: fileID });
       return { fileID, tempFilePath };
     } catch (err) {
       console.error('[photos] 上传失败', err);
@@ -63,6 +78,7 @@ Page({
   },
 
   onDeletePhoto(e) {
+    if (this.data.uploading) return;
     const index = e.currentTarget.dataset.index;
     const photos = [...this.data.photos];
     photos.splice(index, 1);
