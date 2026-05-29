@@ -30,28 +30,28 @@ Page({
 
   onAgeMinInput(e) {
     const val = parseInt(e.detail.value);
-    if (!isNaN(val) && val >= 18 && val < this.data.ageMax) {
+    if (!isNaN(val) && val >= 18 && val <= 60) {
       this.setData({ ageMin: val });
     }
   },
 
   onAgeMaxInput(e) {
     const val = parseInt(e.detail.value);
-    if (!isNaN(val) && val > this.data.ageMin && val <= 60) {
+    if (!isNaN(val) && val >= 18 && val <= 60) {
       this.setData({ ageMax: val });
     }
   },
 
   onHeightMinInput(e) {
     const val = parseInt(e.detail.value);
-    if (!isNaN(val) && val >= 140 && val < this.data.heightMax) {
+    if (!isNaN(val) && val >= 140 && val <= 220) {
       this.setData({ heightMin: val });
     }
   },
 
   onHeightMaxInput(e) {
     const val = parseInt(e.detail.value);
-    if (!isNaN(val) && val > this.data.heightMin && val <= 220) {
+    if (!isNaN(val) && val > 140 && val <= 220) {
       this.setData({ heightMax: val });
     }
   },
@@ -65,6 +65,15 @@ Page({
     if (this.data.loading) return;
     if (this.data.selectedCities.length === 0) {
       wx.showToast({ title: '请至少选择1个目标城市', icon: 'none' });
+      return;
+    }
+
+    if (this.data.ageMin >= this.data.ageMax) {
+      wx.showToast({ title: '年龄最小值需小于最大值', icon: 'none' });
+      return;
+    }
+    if (this.data.heightMin >= this.data.heightMax) {
+      wx.showToast({ title: '身高最小值需小于最大值', icon: 'none' });
       return;
     }
 
@@ -83,7 +92,7 @@ Page({
         },
       });
 
-      if (result.result.error) {
+      if (result.result?.error) {
         wx.showToast({ title: '保存失败，请重试', icon: 'none' });
         return;
       }
