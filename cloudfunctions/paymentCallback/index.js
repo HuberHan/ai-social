@@ -10,6 +10,12 @@ exports.main = async (event, context) => {
     return { errcode: 0 };
   }
 
+  // Fix 4: Input validation
+  if (!outTradeNo || !userOpenid) {
+    console.error('[paymentCallback] Missing required fields', { outTradeNo, userOpenid });
+    return { errcode: 0 };
+  }
+
   try {
     const { data: orders } = await db.collection('orders')
       .where({ order_id: outTradeNo })
@@ -22,27 +28,35 @@ exports.main = async (event, context) => {
 
     const order = orders[0];
 
+    // Fix 5: Log duplicate orders warning
+    if (orders.length > 1) {
+      console.error('[paymentCallback] Duplicate orders for', outTradeNo);
+    }
+
     // Idempotent: skip if already processed
     if (order.status === 'paid') {
       return { errcode: 0 };
     }
 
-    // Mark order as paid
-    await db.collection('orders').doc(order._id).update({
-      data: { status: 'paid', paid_at: db.serverDate() },
-    });
-
-    // Find user
-    const { data: users } = await db.collection('users')
-      .where({ openid: userOpenid })
-      .get();
-
-    if (users.length === 0) {
-      console.error('[paymentCallback] User not found for openid:', userOpenid);
+    // Fix 2: Validate userOpenid matches order.openid
+    if (order.openid !== userOpenid) {
+      console.error('[paymentCallback] openid mismatch:', { orderOpenid: order.openid, callbackOpenid: userOpenid });
       return { errcode: 0 };
     }
 
-    const user = users[0];
+    // Fix 3: Validate order.days before date arithmetic
+    if (!order.days || order.days <= 0 || typeof order.days !== 'number') {
+      console.error('[paymentCallback] Invalid order.days:', order.days);
+      return { errcode: 0 };
+    }
+
+    // Fix 2: Look up user by order.user_id (reliable, not by openid from event)
+    const userDoc = await db.collection('users').doc(order.user_id).get();
+    const user = userDoc.data;
+    if (!user) {
+      console.error('[paymentCallback] User not found:', order.user_id);
+      return { errcode: 0 };
+    }
 
     // Calculate new expire_at: extend from current expire if still VIP, else from now
     const isActiveVip = user.membership_type === 'vip' &&
@@ -52,12 +66,18 @@ exports.main = async (event, context) => {
     const base = isActiveVip ? new Date(user.membership_expire_at) : new Date();
     const newExpireAt = new Date(base.getTime() + order.days * 24 * 60 * 60 * 1000);
 
-    await db.collection('users').doc(user._id).update({
+    // Fix 1: Update user membership FIRST (atomicity — safe for WeChat retry)
+    await db.collection('users').doc(order.user_id).update({
       data: {
         membership_type: 'vip',
         membership_expire_at: newExpireAt,
         updated_at: db.serverDate(),
       },
+    });
+
+    // Then mark order as paid
+    await db.collection('orders').doc(order._id).update({
+      data: { status: 'paid', paid_at: db.serverDate() },
     });
 
     return { errcode: 0 };
