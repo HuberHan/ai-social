@@ -26,10 +26,6 @@ exports.main = async (event, context) => {
       return { error: 'CANNOT_SWIPE_SELF' };
     }
 
-    // Fetch target user for notification payload
-    const { data: toUsers } = await db.collection('users').where({ _id: to_user_id }).get();
-    const toUser = toUsers[0] || {};
-
     const swipeCol = db.collection('swipe_actions');
 
     // Guard: no duplicate swipes
@@ -54,6 +50,10 @@ exports.main = async (event, context) => {
     if (reverse.length === 0) {
       return { matched: false };
     }
+
+    // Fetch target user for notification payload (only on confirmed mutual match)
+    const { data: toUsers } = await db.collection('users').where({ _id: to_user_id }).get();
+    const toUser = toUsers[0] || {};
 
     // Mutual like — assign group from pool
     const { data: groups } = await db.collection('group_pool')

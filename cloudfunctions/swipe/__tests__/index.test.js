@@ -167,6 +167,8 @@ describe('swipe 云函数', () => {
         data: expect.objectContaining({
           user1_openid: 'test_openid_a',
           user2_openid: 'test_openid_b',
+          user1_nickname: expect.any(String),
+          user2_nickname: '小花',
         }),
       })
     );
