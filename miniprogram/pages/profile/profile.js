@@ -39,7 +39,7 @@ Page({
         avatarUrl = editPhotos[0]?.tempURL || '';
         this._resolvedPhotos = fileIDs.slice();
       } catch (e) {
-        // non-fatal: keep previous resolved URLs
+        wx.showToast({ title: '加载照片失败', icon: 'none' });
       }
     } else {
       editPhotos = [];
@@ -240,8 +240,9 @@ Page({
     if (this.data.uploading) return;
     const user = this.data.user;
     const fileIDs = user.photos || [];
+    this.setData({ photoEditMode: false });
     if (fileIDs.length === 0) {
-      this.setData({ editPhotos: [], photoEditMode: false });
+      this.setData({ editPhotos: [] });
       return;
     }
     wx.cloud.getTempFileURL({ fileList: fileIDs }).then(({ fileList }) => {
@@ -249,9 +250,9 @@ Page({
         fileID,
         tempURL: fileList[i]?.tempFileURL || '',
       }));
-      this.setData({ editPhotos, photoEditMode: false });
+      this.setData({ editPhotos });
     }).catch(() => {
-      this.setData({ photoEditMode: false });
+      // Non-fatal: keep current editPhotos
     });
   },
 
