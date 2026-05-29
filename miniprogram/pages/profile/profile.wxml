@@ -1,1 +1,85 @@
-<view>我的（待实现）</view>
+<view class="container" wx:if="{{user}}">
+
+  <!-- Header card: avatar + name + tags -->
+  <view class="header-card">
+    <view class="avatar">
+      <image wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill" class="avatar__img" />
+      <view wx:else class="avatar__placeholder"><text>👤</text></view>
+    </view>
+    <view class="header-info">
+      <text class="header-info__name">{{user.nickname || '用户'}}</text>
+      <view class="header-info__tags">
+        <text class="tag tag--gender">{{user.gender === 'male' ? '男' : '女'}}</text>
+        <text class="tag tag--age">{{user.age}}岁</text>
+        <text wx:if="{{user.membership_type === 'vip'}}" class="tag tag--vip">VIP</text>
+        <text wx:else class="tag tag--free">免费</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Profile info fields (read-only) -->
+  <view class="section" wx:if="{{!editing}}">
+    <view class="field">
+      <text class="field__label">城市</text>
+      <text class="field__value">{{user.current_city || '未填写'}}</text>
+    </view>
+    <view class="field">
+      <text class="field__label">学历</text>
+      <text class="field__value">{{user.education || '未填写'}}</text>
+    </view>
+    <view class="field">
+      <text class="field__label">职业</text>
+      <text class="field__value">{{user.occupation || '未填写'}}</text>
+    </view>
+    <view class="field">
+      <text class="field__label">简介</text>
+      <text class="field__value field__value--bio">{{user.bio || '未填写'}}</text>
+    </view>
+  </view>
+
+  <!-- Edit form (shown when editing === true) -->
+  <view class="section" wx:if="{{editing}}">
+    <view class="edit-field">
+      <text class="edit-field__label">职业</text>
+      <input
+        class="edit-field__input"
+        value="{{editOccupation}}"
+        bindinput="onOccupationInput"
+        placeholder="请输入职业"
+      />
+    </view>
+    <view class="edit-field">
+      <text class="edit-field__label">城市</text>
+      <picker mode="selector" range="{{cityOptions}}" value="{{editCityIndex}}" bindchange="onCityChange">
+        <view class="edit-field__picker">
+          <text>{{editCityIndex >= 0 ? cityOptions[editCityIndex] : '请选择城市'}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="edit-field">
+      <text class="edit-field__label">简介</text>
+      <textarea
+        class="edit-field__textarea"
+        value="{{editBio}}"
+        bindinput="onBioInput"
+        placeholder="介绍一下自己"
+        maxlength="200"
+      />
+    </view>
+    <view class="edit-actions">
+      <button class="btn-cancel" bindtap="onEditToggle">取消</button>
+      <button class="btn-save" bindtap="onSave" loading="{{loading}}">保存</button>
+    </view>
+  </view>
+
+  <!-- Action buttons -->
+  <view class="actions">
+    <button wx:if="{{!editing}}" class="btn-edit" bindtap="onEditToggle">编辑资料</button>
+    <button class="btn-logout" bindtap="onLogout">退出登录</button>
+  </view>
+
+</view>
+
+<view wx:else class="loading-view">
+  <text class="loading-view__text">加载中...</text>
+</view>
