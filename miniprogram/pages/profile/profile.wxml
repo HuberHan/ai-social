@@ -17,6 +17,43 @@
     </view>
   </view>
 
+  <!-- Photo grid -->
+  <view class="section photo-section">
+    <view class="photo-grid">
+      <block wx:for="{{editPhotos}}" wx:key="index">
+        <view class="photo-cell">
+          <image
+            wx:if="{{item.tempURL}}"
+            src="{{item.tempURL}}"
+            mode="aspectFill"
+            class="photo-cell__img"
+          />
+          <view wx:else class="photo-cell__placeholder" />
+          <view
+            wx:if="{{photoEditMode}}"
+            class="photo-cell__delete"
+            bindtap="onDeletePhoto"
+            data-index="{{index}}"
+          >
+            <text class="photo-cell__delete-icon">×</text>
+          </view>
+        </view>
+      </block>
+      <view
+        wx:if="{{photoEditMode && editPhotos.length < 6}}"
+        class="photo-cell photo-cell--add"
+        bindtap="onAddPhoto"
+      >
+        <text class="photo-cell__add-icon">+</text>
+      </view>
+    </view>
+
+    <view wx:if="{{photoEditMode}}" class="photo-edit-actions">
+      <button class="btn-cancel" bindtap="onCancelPhotoEdit">取消</button>
+      <button class="btn-save" bindtap="onSavePhotos" loading="{{loading}}">保存</button>
+    </view>
+  </view>
+
   <!-- Profile info fields (read-only) -->
   <view class="section" wx:if="{{!editing}}">
     <view class="field">
@@ -74,9 +111,14 @@
 
   <!-- Action buttons -->
   <view class="actions">
-    <button wx:if="{{!editing}}" class="btn-edit" bindtap="onEditToggle">编辑资料</button>
     <button
-      wx:if="{{!editing && !isVip}}"
+      wx:if="{{!editing && !photoEditMode}}"
+      class="btn-manage-photos"
+      bindtap="onPhotoEditToggle"
+    >管理照片</button>
+    <button wx:if="{{!editing && !photoEditMode}}" class="btn-edit" bindtap="onEditToggle">编辑资料</button>
+    <button
+      wx:if="{{!editing && !photoEditMode && !isVip}}"
       class="btn-upgrade"
       bindtap="onUpgradeVip"
     >升级 VIP 会员</button>
