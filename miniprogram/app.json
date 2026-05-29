@@ -7,7 +7,8 @@
     "pages/onboarding/basic-info",
     "pages/onboarding/photos",
     "pages/onboarding/preferences",
-    "pages/onboarding/subscribe"
+    "pages/onboarding/subscribe",
+    "pages/match-success/match-success"
   ],
   "tabBar": {
     "color": "#999",

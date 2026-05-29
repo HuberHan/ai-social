@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="header">
+    <text class="header__emoji">💕</text>
+    <text class="header__title">恭喜配对成功！</text>
+    <text class="header__sub">长按二维码保存，打开微信扫码入群</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="qr-area">
+    <text class="qr-area__loading">加载二维码...</text>
+  </view>
+
+  <view wx:elif="{{noQr}}" class="qr-area">
+    <text class="qr-area__noqr">群二维码准备中，请稍后在「匹配」页查看</text>
+  </view>
+
+  <view wx:else class="qr-area">
+    <image
+      src="{{qrUrl}}"
+      mode="aspectFit"
+      class="qr-area__img"
+      show-menu-by-longpress="{{true}}"
+    />
+    <button class="btn-save" bindtap="onSaveQr">保存到相册</button>
+  </view>
+
+  <button class="btn-matches" bindtap="onViewMatches">去「匹配」页查看记录</button>
+</view>
