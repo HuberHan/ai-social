@@ -4,10 +4,6 @@ Page({
     loading: true,
   },
 
-  async onLoad() {
-    await this.loadMatches();
-  },
-
   async onShow() {
     await this.loadMatches();
   },
@@ -30,9 +26,10 @@ Page({
         if (m.other.photos && m.other.photos[0]) fileIDs.push(m.other.photos[0]);
       }
 
+      const uniqueFileIDs = [...new Set(fileIDs)];
       let urlMap = {};
-      if (fileIDs.length > 0) {
-        const { fileList } = await wx.cloud.getTempFileURL({ fileList: fileIDs });
+      if (uniqueFileIDs.length > 0) {
+        const { fileList } = await wx.cloud.getTempFileURL({ fileList: uniqueFileIDs });
         for (const f of fileList) {
           if (f.tempFileURL) urlMap[f.fileID] = f.tempFileURL;
         }

@@ -17,7 +17,7 @@
 .state-view__text { font-size: 28rpx; color: #999; }
 
 .list {
-  height: 100vh;
+  height: calc(100vh - 50px);
   padding: 24rpx 0;
 }
 
