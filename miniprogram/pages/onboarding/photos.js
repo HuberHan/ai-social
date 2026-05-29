@@ -94,7 +94,11 @@ Page({
 
     this.setData({ loading: true });
     try {
-      const fileIDs = this.data.photos.map(p => p.fileID);
+      const fileIDs = this.data.photos.map(p => p.fileID).filter(Boolean);
+      if (fileIDs.length !== this.data.photos.length) {
+        wx.showToast({ title: '照片上传中，请稍候', icon: 'none' });
+        return;
+      }
       const result = await wx.cloud.callFunction({
         name: 'updateProfile',
         data: { type: 'profile', data: { photos: fileIDs } },
