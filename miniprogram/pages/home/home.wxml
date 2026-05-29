@@ -36,6 +36,7 @@
       bindtouchstart="onTouchStart"
       bindtouchmove="onTouchMove"
       bindtouchend="onTouchEnd"
+      bindtouchcancel="onTouchEnd"
     >
       <view class="card-photo">
         <image
