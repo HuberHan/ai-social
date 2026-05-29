@@ -60,6 +60,6 @@
     disabled="{{loading}}"
   >{{loading ? '处理中...' : '立即开通'}}</button>
 
-  <text class="notice">开通即表示同意《会员服务协议》· 支付宝/微信支付均可</text>
+  <text class="notice">开通即表示同意《会员服务协议》</text>
 
 </view>

@@ -63,9 +63,13 @@ Page({
 
       // Payment succeeded — refresh user data from server
       wx.showToast({ title: '开通成功！', icon: 'success' });
-      const loginResult = await wx.cloud.callFunction({ name: 'login' });
-      if (loginResult.result?.user) {
-        app.globalData.user = loginResult.result.user;
+      try {
+        const loginResult = await wx.cloud.callFunction({ name: 'login' });
+        if (loginResult.result?.user) {
+          app.globalData.user = loginResult.result.user;
+        }
+      } catch (refreshErr) {
+        console.warn('[membership] 刷新用户信息失败，下次打开时自动同步', refreshErr);
       }
       wx.navigateBack();
     } catch (err) {
