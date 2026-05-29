@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   const { user1_openid, user2_openid, user1_nickname, user2_nickname, matched_at } = event;
 
   if (!user1_openid || !user2_openid) {
-    console.error('[notifyMatch] Missing openids:', { user1_openid, user2_openid });
+    console.error('[notifyMatch] Missing openids:', { user1_present: !!user1_openid, user2_present: !!user2_openid });
     return { success: false, reason: 'missing_openids' };
   }
 
@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
     return { success: false, reason: 'not_configured' };
   }
 
-  const matchedAtStr = new Date(matched_at).toLocaleString('zh-CN');
+  const matchedAtStr = matched_at ? new Date(matched_at).toLocaleString('zh-CN') : '';
 
   const sendToUser = async (openid, otherNickname) => {
     try {
@@ -36,7 +36,7 @@ exports.main = async (event, context) => {
         miniprogramState: 'formal',
       });
     } catch (err) {
-      console.warn('[notifyMatch] send failed for', openid, err.message);
+      console.warn('[notifyMatch] send failed for', openid.slice(-4), err.message);
     }
   };
 
