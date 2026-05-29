@@ -75,6 +75,11 @@
   <!-- Action buttons -->
   <view class="actions">
     <button wx:if="{{!editing}}" class="btn-edit" bindtap="onEditToggle">编辑资料</button>
+    <button
+      wx:if="{{!editing && !isVip}}"
+      class="btn-upgrade"
+      bindtap="onUpgradeVip"
+    >升级 VIP 会员</button>
     <button class="btn-logout" bindtap="onLogout">退出登录</button>
   </view>
 

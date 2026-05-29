@@ -1,0 +1,65 @@
+<view class="container">
+
+  <!-- VIP 状态提示（已是 VIP 时显示续费提示） -->
+  <view wx:if="{{isVip}}" class="vip-status">
+    <text class="vip-status__icon">👑</text>
+    <text class="vip-status__text">您已是 VIP 会员，到期时间：{{expireAt}}</text>
+    <text class="vip-status__sub">续费将在到期日基础上顺延</text>
+  </view>
+
+  <!-- 权益列表 -->
+  <view class="benefits">
+    <text class="benefits__title">VIP 专属权益</text>
+    <view class="benefit-item">
+      <text class="benefit-item__icon">📸</text>
+      <view class="benefit-item__content">
+        <text class="benefit-item__title">解锁全部照片</text>
+        <text class="benefit-item__desc">免费用户仅能查看头像，VIP 可看全部照片</text>
+      </view>
+    </view>
+    <view class="benefit-item">
+      <text class="benefit-item__icon">🎯</text>
+      <view class="benefit-item__content">
+        <text class="benefit-item__title">每日推荐 12 人</text>
+        <text class="benefit-item__desc">免费用户每日 8 人，VIP 每日 12 人</text>
+      </view>
+    </view>
+    <view class="benefit-item">
+      <text class="benefit-item__icon">⚡</text>
+      <view class="benefit-item__content">
+        <text class="benefit-item__title">优先展示</text>
+        <text class="benefit-item__desc">您的资料优先出现在对方的推荐列表</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 套餐选择 -->
+  <view class="plans">
+    <view
+      wx:for="{{plans}}"
+      wx:key="id"
+      class="plan-card {{selectedPlan === item.id ? 'plan-card--selected' : ''}}"
+      data-id="{{item.id}}"
+      bindtap="onSelectPlan"
+    >
+      <view wx:if="{{item.id === 'yearly'}}" class="plan-card__badge">推荐</view>
+      <text class="plan-card__label">{{item.label}}</text>
+      <view class="plan-card__pricing">
+        <text class="plan-card__price">{{item.price}}</text>
+        <text wx:if="{{item.originalPrice}}" class="plan-card__original">{{item.originalPrice}}</text>
+      </view>
+      <text class="plan-card__desc">{{item.desc}}</text>
+    </view>
+  </view>
+
+  <!-- 购买按钮 -->
+  <button
+    class="btn-purchase"
+    bindtap="onPurchase"
+    loading="{{loading}}"
+    disabled="{{loading}}"
+  >{{loading ? '处理中...' : '立即开通'}}</button>
+
+  <text class="notice">开通即表示同意《会员服务协议》· 支付宝/微信支付均可</text>
+
+</view>

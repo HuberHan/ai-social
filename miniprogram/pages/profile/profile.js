@@ -11,6 +11,7 @@ Page({
     editCityIndex: -1,
     cityOptions: CITIES,
     loading: false,
+    isVip: false,
   },
 
   async onShow() {
@@ -32,7 +33,10 @@ Page({
       }
     }
 
-    this.setData({ user, avatarUrl });
+    const isVip = user.membership_type === 'vip' &&
+      user.membership_expire_at &&
+      new Date(user.membership_expire_at) > new Date();
+    this.setData({ user, avatarUrl, isVip });
   },
 
   onEditToggle() {
@@ -96,6 +100,10 @@ Page({
     } finally {
       this.setData({ loading: false });
     }
+  },
+
+  onUpgradeVip() {
+    wx.navigateTo({ url: '/pages/membership/membership' });
   },
 
   onLogout() {

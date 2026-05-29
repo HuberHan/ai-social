@@ -167,6 +167,16 @@
   border-radius: 44rpx;
   border: none;
 }
+.btn-upgrade {
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 32rpx;
+  background: linear-gradient(90deg, #f7b733, #fc4a1a);
+  color: #fff;
+  border-radius: 44rpx;
+  border: none;
+  font-weight: bold;
+}
 .btn-logout {
   height: 88rpx;
   line-height: 88rpx;
