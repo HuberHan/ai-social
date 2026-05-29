@@ -1,5 +1,6 @@
 const mockUsersGet = jest.fn();
-const mockUsersOrderBy = jest.fn(() => ({ get: mockUsersGet }));
+const mockUsersOrderByLimit = jest.fn(() => ({ get: mockUsersGet }));
+const mockUsersOrderBy = jest.fn(() => ({ limit: mockUsersOrderByLimit, get: mockUsersGet }));
 const mockUsersLimit = jest.fn(() => ({ get: mockUsersGet }));
 const mockUsersWhere = jest.fn(() => ({ get: mockUsersGet, orderBy: mockUsersOrderBy, limit: mockUsersLimit }));
 
@@ -11,7 +12,8 @@ const mockPrefsGet = jest.fn();
 const mockPrefsWhere = jest.fn(() => ({ get: mockPrefsGet }));
 
 const mockSwipeGet = jest.fn();
-const mockSwipeWhere = jest.fn(() => ({ get: mockSwipeGet }));
+const mockSwipeLimit = jest.fn(() => ({ get: mockSwipeGet }));
+const mockSwipeWhere = jest.fn(() => ({ get: mockSwipeGet, limit: mockSwipeLimit }));
 
 const mockCommandIn = jest.fn(arr => ({ __op: 'in', __val: arr }));
 
@@ -63,9 +65,12 @@ describe('dailyMatchJob 云函数', () => {
     mockPrefsGet.mockResolvedValue({ data: [] });
     mockSwipeGet.mockResolvedValue({ data: [] });
     mockRecsAdd.mockResolvedValue({ _id: 'rec_new' });
-    mockUsersOrderBy.mockReturnValue({ get: mockUsersGet });
+    mockUsersOrderByLimit.mockReturnValue({ get: mockUsersGet });
+    mockUsersOrderBy.mockReturnValue({ limit: mockUsersOrderByLimit, get: mockUsersGet });
     mockUsersLimit.mockReturnValue({ get: mockUsersGet });
     mockUsersWhere.mockReturnValue({ get: mockUsersGet, orderBy: mockUsersOrderBy, limit: mockUsersLimit });
+    mockSwipeLimit.mockReturnValue({ get: mockSwipeGet });
+    mockSwipeWhere.mockReturnValue({ get: mockSwipeGet, limit: mockSwipeLimit });
   });
 
   test('已有当日推荐记录时跳过该用户', async () => {
