@@ -32,6 +32,7 @@ Page({
   },
 
   onEditToggle() {
+    if (this.data.loading) return;
     if (this.data.editing) {
       this.setData({ editing: false });
       return;
