@@ -1,1 +1,83 @@
-<view>首页（待实现）</view>
+<view class="container">
+  <!-- Loading -->
+  <view wx:if="{{loading}}" class="state-view">
+    <text class="state-view__text">加载中...</text>
+  </view>
+
+  <!-- Empty / all done -->
+  <view wx:elif="{{!currentCard}}" class="state-view">
+    <text class="state-view__emoji">☀️</text>
+    <text class="state-view__title">今日推荐已看完</text>
+    <text class="state-view__sub">明天再来看看吧</text>
+  </view>
+
+  <!-- Card stack -->
+  <view wx:else class="card-stack">
+    <!-- Next card (behind) -->
+    <view wx:if="{{nextCard}}" class="card card--behind">
+      <view class="card-photo">
+        <image
+          wx:if="{{nextCard.photos.length > 0}}"
+          src="{{nextCard.photos[0]}}"
+          mode="aspectFill"
+          class="card-photo__img"
+        />
+        <view wx:else class="card-photo__placeholder">
+          <text class="card-photo__lock">🔒</text>
+          <text class="card-photo__lock-text">开通 VIP 查看照片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Current card (top) -->
+    <view
+      class="card card--top {{isDragging ? 'card--dragging' : ''}}"
+      style="transform: translateX({{cardOffsetX}}px) rotate({{cardRotation}}deg);"
+      bindtouchstart="onTouchStart"
+      bindtouchmove="onTouchMove"
+      bindtouchend="onTouchEnd"
+    >
+      <view class="card-photo">
+        <image
+          wx:if="{{currentCard.photos.length > 0}}"
+          src="{{currentCard.photos[0]}}"
+          mode="aspectFill"
+          class="card-photo__img"
+        />
+        <view wx:else class="card-photo__placeholder">
+          <text class="card-photo__lock">🔒</text>
+          <text class="card-photo__lock-text">开通 VIP 查看照片</text>
+        </view>
+      </view>
+
+      <view class="card-info">
+        <text class="card-info__name">{{currentCard.nickname || '神秘嘉宾'}}</text>
+        <text class="card-info__tags">{{currentCard.age}}岁 · {{currentCard.current_city}} · {{currentCard.height}}cm</text>
+        <text class="card-info__edu">{{currentCard.education}} · {{currentCard.occupation}}</text>
+        <text wx:if="{{currentCard.bio}}" class="card-info__bio">{{currentCard.bio}}</text>
+      </view>
+
+      <!-- Swipe direction overlay -->
+      <view wx:if="{{swipeDirection === 'like'}}" class="swipe-label swipe-label--like">
+        <text>喜欢 ❤️</text>
+      </view>
+      <view wx:if="{{swipeDirection === 'pass'}}" class="swipe-label swipe-label--pass">
+        <text>跳过 ✗</text>
+      </view>
+    </view>
+
+    <!-- Action buttons -->
+    <view class="action-buttons">
+      <button
+        class="btn-action btn-action--pass"
+        bindtap="onPass"
+        disabled="{{submitting}}"
+      >✗</button>
+      <button
+        class="btn-action btn-action--like"
+        bindtap="onLike"
+        disabled="{{submitting}}"
+      >❤️</button>
+    </view>
+  </view>
+</view>
