@@ -1,1 +1,53 @@
-<view>匹配（待实现）</view>
+<view class="container">
+  <view wx:if="{{loading}}" class="state-view">
+    <text class="state-view__text">加载中...</text>
+  </view>
+
+  <view wx:elif="{{matches.length === 0}}" class="state-view">
+    <text class="state-view__emoji">💌</text>
+    <text class="state-view__title">还没有配对记录</text>
+    <text class="state-view__sub">去首页滑动卡片，等待缘分吧</text>
+  </view>
+
+  <scroll-view wx:else scroll-y class="list">
+    <view
+      wx:for="{{matches}}"
+      wx:key="_id"
+      class="match-item"
+      data-match-id="{{item._id}}"
+      data-qr-file-id="{{item.qrFileId}}"
+      bindtap="onTapMatch"
+    >
+      <view class="match-avatar">
+        <image
+          wx:if="{{item.other.avatarUrl}}"
+          src="{{item.other.avatarUrl}}"
+          mode="aspectFill"
+          class="match-avatar__img"
+        />
+        <view wx:else class="match-avatar__placeholder">
+          <text>👤</text>
+        </view>
+      </view>
+
+      <view class="match-info">
+        <text class="match-info__name">{{item.other.nickname || '神秘嘉宾'}}</text>
+        <text class="match-info__meta">{{item.other.age}}岁 · {{item.other.current_city}}</text>
+        <text class="match-info__date">配对于 {{item.matched_at}}</text>
+      </view>
+
+      <view class="match-qr">
+        <image
+          wx:if="{{item.qrUrl}}"
+          src="{{item.qrUrl}}"
+          mode="aspectFit"
+          class="match-qr__img"
+        />
+        <view wx:else class="match-qr__pending">
+          <text>二维码</text>
+          <text>准备中</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
