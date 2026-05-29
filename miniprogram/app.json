@@ -4,7 +4,10 @@
     "pages/home/home",
     "pages/matches/matches",
     "pages/profile/profile",
-    "pages/onboarding/basic-info"
+    "pages/onboarding/basic-info",
+    "pages/onboarding/photos",
+    "pages/onboarding/preferences",
+    "pages/onboarding/subscribe"
   ],
   "tabBar": {
     "color": "#999",
