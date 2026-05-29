@@ -1,1 +1,87 @@
-<view></view>
+<view class="container">
+  <view class="header">
+    <text class="title">交友偏好</text>
+    <!-- Step 3 of 4 in the onboarding wizard — intentionally static -->
+    <text class="progress">3 / 4</text>
+  </view>
+
+  <view class="form">
+    <!-- Target cities -->
+    <view class="field">
+      <text class="label">目标城市 <text class="required">*</text></text>
+      <text class="field-hint">可多选</text>
+      <view class="city-grid">
+        <view
+          class="city-tag {{selectedCities.indexOf(item) >= 0 ? 'city-tag-active' : ''}}"
+          wx:for="{{cities}}"
+          wx:key="*this"
+          bindtap="onToggleCity"
+          data-city="{{item}}"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <!-- Age range -->
+    <view class="field">
+      <text class="label">期望年龄</text>
+      <view class="range-row">
+        <input
+          class="range-input"
+          type="number"
+          value="{{ageMin}}"
+          bindinput="onAgeMinInput"
+          maxlength="2"
+        />
+        <text class="range-sep">—</text>
+        <input
+          class="range-input"
+          type="number"
+          value="{{ageMax}}"
+          bindinput="onAgeMaxInput"
+          maxlength="2"
+        />
+        <text class="range-unit">岁</text>
+      </view>
+    </view>
+
+    <!-- Height range -->
+    <view class="field">
+      <text class="label">期望身高</text>
+      <view class="range-row">
+        <input
+          class="range-input"
+          type="number"
+          value="{{heightMin}}"
+          bindinput="onHeightMinInput"
+          maxlength="3"
+        />
+        <text class="range-sep">—</text>
+        <input
+          class="range-input"
+          type="number"
+          value="{{heightMax}}"
+          bindinput="onHeightMaxInput"
+          maxlength="3"
+        />
+        <text class="range-unit">cm</text>
+      </view>
+    </view>
+
+    <!-- Education min -->
+    <view class="field">
+      <text class="label">期望学历</text>
+      <picker mode="selector" range="{{eduMinOptions}}" value="{{eduMinIndex}}" bindchange="onEduMinChange">
+        <view class="picker-row">
+          <text class="picker-value">{{eduMin}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <button
+    class="submit-btn"
+    bindtap="onSubmit"
+    disabled="{{loading}}"
+  >{{loading ? '保存中...' : '下一步'}}</button>
+</view>

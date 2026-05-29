@@ -1,0 +1,145 @@
+page {
+  background: #f7f8fa;
+  height: 100%;
+}
+
+.container {
+  padding: 40rpx 32rpx;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.progress {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.form {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 0 24rpx;
+  margin-bottom: 40rpx;
+}
+
+.field {
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.required {
+  color: #e8506a;
+  font-size: 28rpx;
+}
+
+.field-hint {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.city-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.city-tag {
+  padding: 10rpx 22rpx;
+  border-radius: 32rpx;
+  border: 2rpx solid #e0e0e0;
+  font-size: 26rpx;
+  color: #666;
+  background: #fff;
+}
+
+.city-tag-active {
+  border-color: #e8506a;
+  background: #fff0f3;
+  color: #e8506a;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.range-input {
+  width: 100rpx;
+  height: 60rpx;
+  border-bottom: 2rpx solid #e0e0e0;
+  text-align: center;
+  font-size: 30rpx;
+  color: #1a1a1a;
+}
+
+.range-sep {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.range-unit {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  background: #e8506a;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn[disabled] {
+  opacity: 0.6;
+}
