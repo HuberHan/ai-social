@@ -12,7 +12,7 @@
         <text class="tag tag--gender">{{user.gender === 'male' ? '男' : user.gender === 'female' ? '女' : '未知'}}</text>
         <text wx:if="{{user.age}}" class="tag tag--age">{{user.age}}岁</text>
         <text wx:if="{{user.membership_type === 'vip'}}" class="tag tag--vip">VIP</text>
-        <text wx:else class="tag tag--free">免费</text>
+        <text wx:elif="{{!user.membership_type || user.membership_type === 'free'}}" class="tag tag--free">免费</text>
       </view>
     </view>
   </view>

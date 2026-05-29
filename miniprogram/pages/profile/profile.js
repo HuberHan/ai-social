@@ -17,12 +17,16 @@ Page({
     const user = app.globalData.user;
     if (!user) return;
 
-    let avatarUrl = '';
     const firstPhoto = user.photos && user.photos[0];
-    if (firstPhoto) {
+    let avatarUrl = this.data.avatarUrl;
+
+    if (firstPhoto && firstPhoto !== this._resolvedPhoto) {
       try {
         const { fileList } = await wx.cloud.getTempFileURL({ fileList: [firstPhoto] });
-        if (fileList[0]?.tempFileURL) avatarUrl = fileList[0].tempFileURL;
+        if (fileList[0]?.tempFileURL) {
+          avatarUrl = fileList[0].tempFileURL;
+          this._resolvedPhoto = firstPhoto;
+        }
       } catch (e) {
         // non-fatal: show placeholder
       }
