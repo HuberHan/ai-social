@@ -150,6 +150,10 @@ describe('swipe 云函数', () => {
     mockGroupGet.mockResolvedValue({ data: [AVAILABLE_GROUP] });
     mockMatchesAdd.mockResolvedValue({ _id: 'match_001' });
 
+    mockUsersGet
+      .mockResolvedValueOnce({ data: [TEST_USER] })   // fromUser
+      .mockResolvedValueOnce({ data: [{ _id: 'user_b', openid: 'test_openid_b', nickname: '小花' }] });  // toUser
+
     mockCallFunction.mockImplementation(() =>
       new Promise(resolve => setTimeout(() => resolve({}), 5000))
     );
@@ -161,8 +165,8 @@ describe('swipe 云函数', () => {
       expect.objectContaining({
         name: 'notifyMatch',
         data: expect.objectContaining({
-          user1_openid: expect.any(String),
-          user2_openid: expect.any(String),
+          user1_openid: 'test_openid_a',
+          user2_openid: 'test_openid_b',
         }),
       })
     );
