@@ -1,1 +1,143 @@
-/* placeholder */
+page {
+  background: #f7f8fa;
+  height: 100%;
+}
+
+.container {
+  padding: 40rpx 32rpx;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.progress {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.form {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 0 24rpx;
+  margin-bottom: 40rpx;
+}
+
+.field {
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+}
+
+.required {
+  color: #e8506a;
+  font-size: 28rpx;
+}
+
+.optional {
+  color: #999;
+  font-size: 24rpx;
+  font-weight: normal;
+}
+
+.gender-group {
+  display: flex;
+  gap: 20rpx;
+}
+
+.gender-btn {
+  flex: 1;
+  height: 72rpx;
+  border-radius: 36rpx;
+  border: 2rpx solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.gender-btn.active {
+  border-color: #e8506a;
+  background: #fff0f3;
+  color: #e8506a;
+  font-weight: bold;
+}
+
+.picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.picker-placeholder {
+  font-size: 28rpx;
+  color: #c0c0c0;
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+.text-input {
+  width: 100%;
+  height: 60rpx;
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.bio-input {
+  width: 100%;
+  height: 120rpx;
+  font-size: 28rpx;
+  color: #1a1a1a;
+  line-height: 1.5;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  background: #e8506a;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn[disabled] {
+  opacity: 0.6;
+}

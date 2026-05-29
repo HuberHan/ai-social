@@ -1,1 +1,101 @@
-<view>注册引导（待实现）</view>
+<view class="container">
+  <view class="header">
+    <text class="title">完善基础信息</text>
+    <text class="progress">1 / 4</text>
+  </view>
+
+  <view class="form">
+    <!-- Gender -->
+    <view class="field">
+      <text class="label">性别 <text class="required">*</text></text>
+      <view class="gender-group">
+        <view
+          class="gender-btn {{gender === 'male' ? 'active' : ''}}"
+          bindtap="onSelectGender"
+          data-value="male"
+        >男</view>
+        <view
+          class="gender-btn {{gender === 'female' ? 'active' : ''}}"
+          bindtap="onSelectGender"
+          data-value="female"
+        >女</view>
+      </view>
+    </view>
+
+    <!-- Birthday -->
+    <view class="field">
+      <text class="label">生日 <text class="required">*</text></text>
+      <picker mode="date" value="{{birthday}}" start="1970-01-01" end="2006-12-31" bindchange="onBirthdayChange">
+        <view class="picker-row">
+          <text class="{{birthday ? 'picker-value' : 'picker-placeholder'}}">{{birthday || '请选择生日'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- Height -->
+    <view class="field">
+      <text class="label">身高（cm） <text class="required">*</text></text>
+      <input
+        class="text-input"
+        type="number"
+        value="{{height}}"
+        placeholder="如：170"
+        maxlength="3"
+        bindinput="onHeightInput"
+      />
+    </view>
+
+    <!-- Education -->
+    <view class="field">
+      <text class="label">学历 <text class="required">*</text></text>
+      <picker mode="selector" range="{{educationOptions}}" value="{{educationIndex}}" bindchange="onEducationChange">
+        <view class="picker-row">
+          <text class="{{education ? 'picker-value' : 'picker-placeholder'}}">{{education || '请选择学历'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- Occupation -->
+    <view class="field">
+      <text class="label">职业 <text class="required">*</text></text>
+      <input
+        class="text-input"
+        value="{{occupation}}"
+        placeholder="如：产品经理"
+        maxlength="20"
+        bindinput="onOccupationInput"
+      />
+    </view>
+
+    <!-- City -->
+    <view class="field">
+      <text class="label">所在城市 <text class="required">*</text></text>
+      <picker mode="selector" range="{{cityOptions}}" value="{{cityIndex}}" bindchange="onCityChange">
+        <view class="picker-row">
+          <text class="{{current_city ? 'picker-value' : 'picker-placeholder'}}">{{current_city || '请选择城市'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- Bio (optional) -->
+    <view class="field">
+      <text class="label">个人简介 <text class="optional">（选填）</text></text>
+      <textarea
+        class="bio-input"
+        value="{{bio}}"
+        placeholder="简单介绍一下自己吧，100字以内..."
+        maxlength="100"
+        bindinput="onBioInput"
+      />
+    </view>
+  </view>
+
+  <button
+    class="submit-btn"
+    bindtap="onSubmit"
+    disabled="{{loading}}"
+  >{{loading ? '保存中...' : '下一步'}}</button>
+</view>
