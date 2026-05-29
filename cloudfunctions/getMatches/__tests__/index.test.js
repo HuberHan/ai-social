@@ -1,12 +1,15 @@
 const mockUsersGet = jest.fn();
-const mockUsersWhere = jest.fn(() => ({ get: mockUsersGet }));
+const mockUsersLimit = jest.fn(() => ({ get: mockUsersGet }));
+const mockUsersWhere = jest.fn(() => ({ get: mockUsersGet, limit: mockUsersLimit }));
 
 const mockMatchesGet = jest.fn();
-const mockMatchesOrderBy = jest.fn(() => ({ get: mockMatchesGet }));
+const mockMatchesLimit = jest.fn(() => ({ get: mockMatchesGet }));
+const mockMatchesOrderBy = jest.fn(() => ({ limit: mockMatchesLimit, get: mockMatchesGet }));
 const mockMatchesWhere = jest.fn(() => ({ orderBy: mockMatchesOrderBy }));
 
 const mockGroupGet = jest.fn();
-const mockGroupWhere = jest.fn(() => ({ get: mockGroupGet }));
+const mockGroupLimit = jest.fn(() => ({ get: mockGroupGet }));
+const mockGroupWhere = jest.fn(() => ({ get: mockGroupGet, limit: mockGroupLimit }));
 
 const mockCommandIn = jest.fn(arr => ({ __op: 'in', __val: arr }));
 const mockCommandOr = jest.fn((...args) => ({ __op: 'or', __val: args }));
