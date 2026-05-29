@@ -17,6 +17,14 @@ exports.main = async (event, context) => {
     }
 
     const from_user_id = users[0]._id;
+
+    if (!to_user_id || typeof to_user_id !== 'string') {
+      return { error: 'INVALID_TARGET' };
+    }
+    if (to_user_id === from_user_id) {
+      return { error: 'CANNOT_SWIPE_SELF' };
+    }
+
     const swipeCol = db.collection('swipe_actions');
 
     // Guard: no duplicate swipes

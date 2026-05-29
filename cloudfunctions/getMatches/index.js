@@ -16,6 +16,7 @@ exports.main = async (event, context) => {
     const { data: matches } = await db.collection('matches')
       .where(db.command.or({ user1_id: user._id }, { user2_id: user._id }))
       .orderBy('matched_at', 'desc')
+      .limit(100)
       .get();
 
     if (matches.length === 0) {
@@ -29,6 +30,7 @@ exports.main = async (event, context) => {
 
     const { data: otherUsers } = await db.collection('users')
       .where({ _id: db.command.in(otherUserIds) })
+      .limit(100)
       .get();
 
     const userMap = {};
@@ -40,6 +42,7 @@ exports.main = async (event, context) => {
     if (groupPoolIds.length > 0) {
       const { data: groups } = await db.collection('group_pool')
         .where({ _id: db.command.in(groupPoolIds) })
+        .limit(100)
         .get();
       for (const g of groups) {
         groupMap[g._id] = g;

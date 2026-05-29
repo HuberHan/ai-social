@@ -31,6 +31,7 @@ exports.main = async (event, context) => {
       // Get already-swiped IDs
       const { data: swiped } = await db.collection('swipe_actions')
         .where({ from_user_id: user._id })
+        .limit(500)
         .get();
       const swipedIds = new Set(swiped.map(s => s.to_user_id));
 
@@ -43,6 +44,7 @@ exports.main = async (event, context) => {
       const { data: candidates } = await db.collection('users')
         .where({ status: 'active', is_profile_complete: true, gender: targetGender, ...cityFilter })
         .orderBy('last_active_at', 'desc')
+        .limit(500)
         .get();
 
       // Client-side filters: exclude self/swiped, apply range and education constraints

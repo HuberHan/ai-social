@@ -34,10 +34,21 @@ Page({
 
   onSaveQr() {
     if (!this.data.qrUrl) return;
-    wx.saveImageToPhotosAlbum({
-      filePath: this.data.qrUrl,
-      success: () => wx.showToast({ title: '已保存到相册', icon: 'success' }),
-      fail: () => wx.showToast({ title: '保存失败，请长按图片保存', icon: 'none' }),
+    wx.showLoading({ title: '保存中...' });
+    wx.downloadFile({
+      url: this.data.qrUrl,
+      success: (res) => {
+        wx.hideLoading();
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: () => wx.showToast({ title: '已保存到相册', icon: 'success' }),
+          fail: () => wx.showToast({ title: '保存失败，请长按图片保存', icon: 'none' }),
+        });
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showToast({ title: '保存失败，请长按图片保存', icon: 'none' });
+      },
     });
   },
 
