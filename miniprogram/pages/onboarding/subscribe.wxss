@@ -1,0 +1,108 @@
+page {
+  background: #f7f8fa;
+  height: 100%;
+}
+
+.container {
+  padding: 80rpx 48rpx 0;
+  padding-bottom: calc(80rpx + env(safe-area-inset-bottom));
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 80rpx;
+}
+
+.step-label {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 24rpx;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #888;
+}
+
+.benefits {
+  width: 100%;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 8rpx 32rpx;
+  margin-bottom: 60rpx;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.benefit-item:last-child {
+  border-bottom: none;
+}
+
+.benefit-icon {
+  font-size: 56rpx;
+  margin-right: 28rpx;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.benefit-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 8rpx;
+}
+
+.benefit-desc {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  background: #e8506a;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.submit-btn[disabled] {
+  opacity: 0.6;
+}
+
+.skip-link {
+  font-size: 28rpx;
+  color: #999;
+  text-decoration: underline;
+  padding: 16rpx;
+}

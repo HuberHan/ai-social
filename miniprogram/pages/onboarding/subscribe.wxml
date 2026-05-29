@@ -1,1 +1,33 @@
-<view></view>
+<view class="container">
+  <view class="header">
+    <!-- Step 4 of 4 in the onboarding wizard — intentionally static -->
+    <text class="step-label">4 / 4</text>
+    <text class="title">开启消息通知</text>
+    <text class="subtitle">及时收到每日推荐和配对成功通知</text>
+  </view>
+
+  <view class="benefits">
+    <view class="benefit-item">
+      <view class="benefit-icon">🔔</view>
+      <view class="benefit-text">
+        <text class="benefit-title">每日推荐通知</text>
+        <text class="benefit-desc">每天第一时间收到今日推荐</text>
+      </view>
+    </view>
+    <view class="benefit-item">
+      <view class="benefit-icon">💑</view>
+      <view class="benefit-text">
+        <text class="benefit-title">配对成功通知</text>
+        <text class="benefit-desc">互选成功时立即收到提醒和群二维码</text>
+      </view>
+    </view>
+  </view>
+
+  <button
+    class="submit-btn"
+    bindtap="onAuthorizeAndContinue"
+    disabled="{{loading}}"
+  >{{loading ? '处理中...' : '开启通知并进入'}}</button>
+
+  <view class="skip-link" bindtap="onSkip">暂时跳过</view>
+</view>
